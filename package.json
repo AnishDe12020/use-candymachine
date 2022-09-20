@@ -1,25 +1,25 @@
 {
-	"name": "use-candymachine",
-	"version": "1.0.0",
-	"license": "MIT",
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"types": "dist/index.d.ts",
-	"peerDependencies": {
-		"react": "^18.2.0"
-	},
-	"devDependencies": {
-		"@types/react": "^18.0.20",
-		"react": "^18.2.0",
-		"tslib": "^2.4.0",
-		"tsup": "^6.2.3",
-		"typescript": "^4.8.3"
-	},
-	"dependencies": {
-		"@metaplex-foundation/js": "^0.15.0",
-		"@solana/web3.js": "^1.62.0"
-	},
-	"scripts": {
-		"build": "rollup -c && tsc -d --emitDeclarationOnly --noEmit false --declarationDir dist"
-	}
+  "name": "use-candymachine",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.20",
+    "react": "^18.2.0",
+    "tslib": "^2.4.0",
+    "tsup": "^6.2.3",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@metaplex-foundation/js": "^0.15.0",
+    "@solana/web3.js": "^1.62.0"
+  },
+  "scripts": {
+    "build": "tsup --dts && tsc -p tsconfig.js"
+  }
 }

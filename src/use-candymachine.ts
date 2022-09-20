@@ -15,6 +15,8 @@ const useCandymachine = (
   const [candymachineMeta, setCandymachineMeta] =
     useState<CandyMachineMetaWithPages | null>(null);
   const [nfts, setNfts] = useState<any[] | null>(null);
+  const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
+  const [isFetchingNFTs, setIsFetchingNFTs] = useState<boolean>(false);
 
   const metaplex = useMemo(() => {
     return Metaplex.make(conn);
@@ -22,16 +24,14 @@ const useCandymachine = (
 
   const prevPage = async () => {
     if (page - 1 < 1) {
-      setPage(1);
+      changePage(1);
     } else {
-      setPage(page - 1);
+      changePage(page - 1);
     }
-    await fetchNfts();
   };
 
   const nextPage = async () => {
-    setPage(page + 1);
-    await fetchNfts();
+    changePage(page + 1);
   };
 
   const fetchCandyMachineMetadata = async () => {
@@ -41,6 +41,7 @@ const useCandymachine = (
     }
 
     try {
+      setIsFetchingMetadata(true);
       const candymachine = await metaplex
         .candyMachines()
         .findByAddress({ address: new PublicKey(cmId) })
@@ -49,6 +50,7 @@ const useCandymachine = (
       const totalPages = Math.ceil(candymachine.itemsAvailable / nftsPerPage);
 
       setCandymachineMeta({ ...candymachine, totalPages });
+      setIsFetchingMetadata(false);
 
       return candymachine;
     } catch (error) {
@@ -58,8 +60,6 @@ const useCandymachine = (
 
   const initialFetch = async () => {
     const meta = await fetchCandyMachineMetadata();
-    console.log("candymachineMeta fetched");
-    console.log("f", meta);
     await fetchNfts(meta);
   };
 
@@ -70,7 +70,7 @@ const useCandymachine = (
       );
       return;
     }
-
+    setIsFetchingNFTs(true);
     const pageItems = meta.items.slice(
       (page - 1) * nftsPerPage,
       page * nftsPerPage
@@ -85,6 +85,7 @@ const useCandymachine = (
     }
 
     setNfts(nftData);
+    setIsFetchingNFTs(false);
   };
 
   const fetchNfts = async (meta?: CandyMachine) => {
@@ -110,7 +111,6 @@ const useCandymachine = (
     }
     await fetchNftsForPage(page, candymachineMeta);
     setPage(page);
-    console.log("changed page");
   };
 
   return {
@@ -123,6 +123,8 @@ const useCandymachine = (
     initialFetch,
     fetchNftsForPage,
     changePage,
+    isFetchingMetadata,
+    isFetchingNFTs,
   };
 };
 
