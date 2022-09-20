@@ -42,20 +42,16 @@ const Home: NextPage = () => {
         (nfts?.length as number) > 0 && (
           <Grid.Container gap={8} justify="center">
             {nfts?.map((nft, index) => (
-              <Grid
-                as={Card}
-                xs
-                key={index}
-                variant="bordered"
-                css={{ padding: "1rem" }}
-              >
-                <img src={nft.image} height={256} width={256} />
-                <Text h2 css={{ color: "$blue700", marginBottom: "1rem" }}>
-                  {nft.name}
-                </Text>
-                <Text h3 css={{ color: "$accents6", marginBottom: "1rem" }}>
-                  {nft.description}
-                </Text>
+              <Grid xs key={index}>
+                <Card css={{ padding: "1rem" }} variant="bordered">
+                  <img src={nft.image} height={256} width={256} />
+                  <Text h2 css={{ color: "$blue700", marginBottom: "1rem" }}>
+                    {nft.name}
+                  </Text>
+                  <Text h3 css={{ color: "$accents6", marginBottom: "1rem" }}>
+                    {nft.description}
+                  </Text>
+                </Card>
               </Grid>
             ))}
           </Grid.Container>
