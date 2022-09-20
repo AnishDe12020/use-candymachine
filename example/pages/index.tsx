@@ -4,13 +4,20 @@ import styles from "../styles/Home.module.css";
 import useCandymachine from "../../dist/use-candymachine";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import { useEffect } from "react";
-import { Grid, Card, Text, Pagination } from "@nextui-org/react";
+import { Grid, Card, Text, Pagination, Loading } from "@nextui-org/react";
 
 const Home: NextPage = () => {
   const conn = new Connection(clusterApiUrl("devnet"));
 
-  const { page, nfts, candymachineMeta, initialFetch, changePage } =
-    useCandymachine(conn, "ByPMt7dcfMjysaCYVT1bCxaYESZd4SCmdHtvEwiCQGCN", 4);
+  const {
+    page,
+    nfts,
+    candymachineMeta,
+    initialFetch,
+    changePage,
+    isFetchingMetadata,
+    isFetchingNFTs,
+  } = useCandymachine(conn, "FmREgvARZskS7aanKYiyPRdk68BrgAHxLrDcSjFAQwv5", 4);
 
   useEffect(() => {
     initialFetch();
@@ -27,33 +34,41 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {nfts && nfts.length > 0 && (
-        <Grid.Container gap={8} justify="center">
-          {nfts.map((nft: any, index: number) => (
-            <Grid
-              as={Card}
-              xs
-              key={index}
-              variant="bordered"
-              css={{ padding: "1rem" }}
-            >
-              <img src={nft.image} height={256} width={256} />
-              <Text h2 css={{ color: "$blue700", marginBottom: "1rem" }}>
-                {nft.name}
-              </Text>
-              <Text h3 css={{ color: "$accents6", marginBottom: "1rem" }}>
-                {nft.description}
-              </Text>
-            </Grid>
-          ))}
-        </Grid.Container>
+      {isFetchingMetadata ? (
+        <Loading />
+      ) : isFetchingNFTs ? (
+        <Loading />
+      ) : (
+        (nfts?.length as number) > 0 && (
+          <Grid.Container gap={8} justify="center">
+            {nfts?.map((nft, index) => (
+              <Grid
+                as={Card}
+                xs
+                key={index}
+                variant="bordered"
+                css={{ padding: "1rem" }}
+              >
+                <img src={nft.image} height={256} width={256} />
+                <Text h2 css={{ color: "$blue700", marginBottom: "1rem" }}>
+                  {nft.name}
+                </Text>
+                <Text h3 css={{ color: "$accents6", marginBottom: "1rem" }}>
+                  {nft.description}
+                </Text>
+              </Grid>
+            ))}
+          </Grid.Container>
+        )
       )}
-      {candymachineMeta && (
+      {isFetchingMetadata ? (
+        <Loading />
+      ) : (
         <Pagination
           initialPage={1}
           onChange={page => changePage(page)}
           page={page}
-          total={candymachineMeta.totalPages}
+          total={candymachineMeta?.totalPages}
         />
       )}
     </div>
