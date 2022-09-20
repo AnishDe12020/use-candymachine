@@ -4,21 +4,13 @@ import styles from "../styles/Home.module.css";
 import useCandymachine from "../../dist/use-candymachine";
 import { clusterApiUrl, Connection } from "@solana/web3.js";
 import { useEffect } from "react";
-import { Grid } from "@nextui-org/react";
+import { Grid, Card, Text, Pagination } from "@nextui-org/react";
 
 const Home: NextPage = () => {
   const conn = new Connection(clusterApiUrl("devnet"));
 
-  const {
-    fetchCandyMachine,
-    page,
-    nextPage,
-    prevPage,
-    fetchNftsForPage,
-    nfts,
-    candymachineMeta,
-    initialFetch,
-  } = useCandymachine(conn, "ByPMt7dcfMjysaCYVT1bCxaYESZd4SCmdHtvEwiCQGCN", 4);
+  const { page, nfts, candymachineMeta, initialFetch, changePage } =
+    useCandymachine(conn, "ByPMt7dcfMjysaCYVT1bCxaYESZd4SCmdHtvEwiCQGCN", 4);
 
   useEffect(() => {
     initialFetch();
@@ -36,13 +28,33 @@ const Home: NextPage = () => {
       </Head>
 
       {nfts && nfts.length > 0 && (
-        <Grid.Container gap={2}>
-          {nfts.map((nft, index) => (
-            <Grid xs={12} sm={6} md={4} lg={3} key={index}>
-              <img src={nft.image} />
+        <Grid.Container gap={8} justify="center">
+          {nfts.map((nft: any, index: number) => (
+            <Grid
+              as={Card}
+              xs
+              key={index}
+              variant="bordered"
+              css={{ padding: "1rem" }}
+            >
+              <img src={nft.image} height={256} width={256} />
+              <Text h2 css={{ color: "$blue700", marginBottom: "1rem" }}>
+                {nft.name}
+              </Text>
+              <Text h3 css={{ color: "$accents6", marginBottom: "1rem" }}>
+                {nft.description}
+              </Text>
             </Grid>
           ))}
         </Grid.Container>
+      )}
+      {candymachineMeta && (
+        <Pagination
+          initialPage={1}
+          onChange={page => changePage(page)}
+          page={page}
+          total={candymachineMeta.totalPages}
+        />
       )}
     </div>
   );
