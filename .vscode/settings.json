@@ -1,3 +1,3 @@
 {
-  "conventionalCommits.scopes": ["use-candymachine", "example"]
+  "conventionalCommits.scopes": ["use-candymachine", "example", "readme"]
 }
