@@ -1,6 +1,6 @@
 {
   "name": "use-candymachine",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -21,7 +21,10 @@
     "@solana/web3.js": "^1.62.0"
   },
   "scripts": {
-    "build": "tsup --dts && tsc -p tsconfig.js",
+    "build": "tsup --dts && tsc -p tsconfig.json",
     "release": "yarn build && changeset publish"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
