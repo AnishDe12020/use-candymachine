@@ -1,1 +1,1 @@
-export * from "./use-candymachine"
+export * from "./use-candymachine";

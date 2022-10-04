@@ -1,0 +1,10 @@
+node_modules
+yarn.lock
+package-lock.json
+.github
+README.md
+.vercel
+.next
+dist/
+sample-candymachine
+
