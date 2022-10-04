@@ -1,0 +1,9 @@
+{
+  "name": "sample-candymachine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "js-image-generator": "^1.0.3"
+  }
+}

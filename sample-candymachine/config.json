@@ -1,0 +1,26 @@
+{
+  "price": 0.01,
+  "number": 100,
+  "gatekeeper": null,
+  "creators": [
+    {
+      "address": "A43ZHonirwXPsQKWjngdrAywGFy71rTgvgrHjbZYBwjN",
+      "share": 100
+    }
+  ],
+  "solTreasuryAccount": "A43ZHonirwXPsQKWjngdrAywGFy71rTgvgrHjbZYBwjN",
+  "splTokenAccount": null,
+  "splToken": null,
+  "goLiveDate": "2022-09-21T08:19:46.444029017+00:00",
+  "endSettings": null,
+  "whitelistMintSettings": null,
+  "hiddenSettings": null,
+  "uploadMethod": "bundlr",
+  "retainAuthority": true,
+  "isMutable": true,
+  "symbol": "RSNFT",
+  "sellerFeeBasisPoints": 100,
+  "awsConfig": null,
+  "nftStorageAuthToken": null,
+  "shdwStorageAccount": null
+}
