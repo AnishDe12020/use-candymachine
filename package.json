@@ -8,6 +8,20 @@
 	"peerDependencies": {
 		"react": "^18.2.0"
 	},
+	"homepage": "https://github.com/AnishDe12020/use-candymachine",
+	"repository": "AnishDe12020/use-candymachine",
+	"bugs": "https://github.com/AnishDe12020/use-candymachin/issues",
+	"author": "AnishDe12020",
+	"keywords": [
+		"solana",
+		"nft",
+		"metaplex",
+		"candymachine",
+		"minting nfts",
+		"solana nfts",
+		"metaplex nfts",
+		"metaplex react hook"
+	],
 	"devDependencies": {
 		"@types/react": "^18.0.20",
 		"react": "^18.2.0",
