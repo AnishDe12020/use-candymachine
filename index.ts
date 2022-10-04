@@ -1,1 +1,3 @@
-export * from "./src";
+import useCandymachine from "./src";
+
+export default useCandymachine;

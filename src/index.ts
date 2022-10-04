@@ -1,1 +1,3 @@
-export * from "./use-candymachine";
+import useCandymachine from "./use-candymachine";
+
+export default useCandymachine;
