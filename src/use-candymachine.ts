@@ -1,4 +1,4 @@
-import { Connection, PublicKey } from "@solana/web3.js";
+import { ConfirmOptions, Connection, PublicKey, Signer } from "@solana/web3.js";
 import {
   CandyMachine,
   Metaplex,
@@ -124,47 +124,48 @@ const useCandymachine = (
     setPage(page);
   };
 
-  const mint = async () =>
-    // payer?: Signer,
-    // newMint?: Signer,
-    // newOwner?: PublicKey,		// newToken?: Signer,
-    // payerToken?: PublicKey,
-    // whitelistToken?: PublicKey,
-    // tokenProgram?: PublicKey,
-    // associatedTokenProgram?: PublicKey,
-    // tokenMetadataProgram?: PublicKey,
-    // confirmOptions?: ConfirmOptions
-    {
-      if (!candymachineMeta) {
-        return Error("No candy machine metadata found");
-      }
+  const mint = async (
+    payer?: Signer,
+    newMint?: Signer,
+    newOwner?: PublicKey,
+    newToken?: Signer,
+    payerToken?: PublicKey,
+    whitelistToken?: PublicKey,
+    tokenProgram?: PublicKey,
+    associatedTokenProgram?: PublicKey,
+    tokenMetadataProgram?: PublicKey,
+    confirmOptions?: ConfirmOptions
+  ) => {
+    if (!candymachineMeta) {
+      return Error("No candy machine metadata found");
+    }
 
-      if (!wallet) {
-        return Error("Wallet not passed in, please pass it in as a prop");
-      }
+    if (!wallet) {
+      return Error("Wallet not passed in, please pass it in as a prop");
+    }
 
-      setIsMinting(true);
+    setIsMinting(true);
 
-      const mintResult = await metaplex
-        .candyMachines()
-        .mint({
-          candyMachine: candymachineMeta,
-          // payer,
-          // newOwner,
-          // newToken,
-          // newMint,
-          // payerToken,
-          // whitelistToken,
-          // tokenProgram,
-          // associatedTokenProgram,
-          // tokenMetadataProgram,
-          // confirmOptions,
-        })
-        .run();
+    const mintResult = await metaplex
+      .candyMachines()
+      .mint({
+        candyMachine: candymachineMeta,
+        payer,
+        newOwner,
+        newToken,
+        newMint,
+        payerToken,
+        whitelistToken,
+        tokenProgram,
+        associatedTokenProgram,
+        tokenMetadataProgram,
+        confirmOptions,
+      })
+      .run();
 
-      setIsMinting(false);
-      return mintResult;
-    };
+    setIsMinting(false);
+    return mintResult;
+  };
 
   return {
     page,
