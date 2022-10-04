@@ -34,21 +34,28 @@ const useCandymachine = (
   }, [conn, wallet]);
 
   const prevPage = async () => {
-    if (page - 1 < 1) {
-      changePage(1);
-    } else {
-      changePage(page - 1);
+    try {
+      if (page - 1 < 1) {
+        changePage(1);
+      } else {
+        changePage(page - 1);
+      }
+    } catch (e) {
+      return e;
     }
   };
 
   const nextPage = async () => {
-    changePage(page + 1);
+    try {
+      changePage(page + 1);
+    } catch (e) {
+      return e;
+    }
   };
 
   const fetchCandyMachineMetadata = async () => {
     if (!cmId) {
-      console.error("No candy machine id provided");
-      return;
+      return new Error("No candy machine id provided");
     }
 
     try {
@@ -65,38 +72,46 @@ const useCandymachine = (
 
       return candymachine;
     } catch (error) {
-      console.error(error);
+      return error;
     }
   };
 
   const initialFetch = async () => {
-    const meta = await fetchCandyMachineMetadata();
-    await fetchNfts(meta);
+    try {
+      const meta = await fetchCandyMachineMetadata();
+      await fetchNfts(meta);
+    } catch (e) {
+      return e;
+    }
   };
 
   const fetchNftsForPage = async (page: number, meta: CandyMachine) => {
     if (!meta) {
-      console.error(
+      return new Error(
         "No candy machine metadata found. Please run `fetchCandyMachine` first"
       );
-      return;
-    }
-    setIsFetchingNFTs(true);
-    const pageItems = meta.items.slice(
-      (page - 1) * nftsPerPage,
-      page * nftsPerPage
-    );
-
-    let nftData: any[] = [];
-
-    for (let i = 0; i < pageItems.length; i++) {
-      const fetchResult = await fetch(pageItems[i].uri);
-      const jsonResult = await fetchResult.json();
-      nftData.push(jsonResult);
     }
 
-    setNfts(nftData);
-    setIsFetchingNFTs(false);
+    try {
+      setIsFetchingNFTs(true);
+      const pageItems = meta.items.slice(
+        (page - 1) * nftsPerPage,
+        page * nftsPerPage
+      );
+
+      let nftData: any[] = [];
+
+      for (let i = 0; i < pageItems.length; i++) {
+        const fetchResult = await fetch(pageItems[i].uri);
+        const jsonResult = await fetchResult.json();
+        nftData.push(jsonResult);
+      }
+
+      setNfts(nftData);
+      setIsFetchingNFTs(false);
+    } catch (error) {
+      return error;
+    }
   };
 
   const fetchNfts = async (meta?: CandyMachine) => {
@@ -104,18 +119,22 @@ const useCandymachine = (
       if (candymachineMeta) {
         meta = candymachineMeta;
       } else {
-        console.error(
+        return new Error(
           "No candy machine metadata found. Please run `fetchCandyMachine` first"
         );
-        return;
       }
     }
-    await fetchNftsForPage(page, meta);
+
+    try {
+      await fetchNftsForPage(page, meta);
+    } catch (e) {
+      return e;
+    }
   };
 
   const changePage = async (page: number) => {
     if (!candymachineMeta) {
-      console.error(
+      return new Error(
         "No candy machine metadata found. Please run `fetchCandyMachine` first"
       );
       return;
@@ -144,27 +163,31 @@ const useCandymachine = (
       return Error("Wallet not passed in, please pass it in as a prop");
     }
 
-    setIsMinting(true);
+    try {
+      setIsMinting(true);
 
-    const mintResult = await metaplex
-      .candyMachines()
-      .mint({
-        candyMachine: candymachineMeta,
-        payer,
-        newOwner,
-        newToken,
-        newMint,
-        payerToken,
-        whitelistToken,
-        tokenProgram,
-        associatedTokenProgram,
-        tokenMetadataProgram,
-        confirmOptions,
-      })
-      .run();
+      const mintResult = await metaplex
+        .candyMachines()
+        .mint({
+          candyMachine: candymachineMeta,
+          payer,
+          newOwner,
+          newToken,
+          newMint,
+          payerToken,
+          whitelistToken,
+          tokenProgram,
+          associatedTokenProgram,
+          tokenMetadataProgram,
+          confirmOptions,
+        })
+        .run();
 
-    setIsMinting(false);
-    return mintResult;
+      setIsMinting(false);
+      return mintResult;
+    } catch (error) {
+      return error;
+    }
   };
 
   return {
