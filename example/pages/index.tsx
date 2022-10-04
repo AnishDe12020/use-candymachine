@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import useCandymachine from "../../dist/use-candymachine";
+import useCandymachine from "use-candymachine";
 import { useEffect } from "react";
 import {
   Grid,
@@ -11,6 +11,7 @@ import {
   Loading,
   Container,
   Button,
+  Link,
 } from "@nextui-org/react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -101,6 +102,23 @@ const Home: NextPage = () => {
           </Container>
         </Container>
       )}
+      <Container as="footer">
+        <Text>
+          Made by{" "}
+          <Link isExternal href="https://twitter.com/AnishDe12020">
+            Anish De
+          </Link>
+        </Text>
+        <Text>
+          Source Code (GitHub) -{" "}
+          <Link
+            isExternal
+            href="https://github.com/AnishDe12020/use-candymachine"
+          >
+            AnishDe12020/use-candymachine
+          </Link>
+        </Text>
+      </Container>
     </div>
   );
 };
